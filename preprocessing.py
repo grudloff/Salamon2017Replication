@@ -2,7 +2,7 @@ import glob
 import os
 import numpy as np
 
-from librosa import power_to_db
+from librosa import power_to_db, load
 from librosa.feature import melspectrogram
 
 from pywt import dwt2
@@ -32,7 +32,7 @@ def extract_features(signal, normalize, wavelet):
       melspec = (melspec - np.mean(melspec))/np.std(melspec)
     
     # 2D Discrete Wavelet Transform
-    if wavelet != 0
+    if wavelet != 0:
         LL, (LH, HL, HH) = dwt2(melspec, wavelet)
         melspec = np.stack([LL,LH,HL,HH],axis=-1) # shape: [frames, bands, 4]
     else:
@@ -52,14 +52,14 @@ def extract_fold(parent_dir, fold, frames, bands, channels, normalize, wavelet):
     for filename in glob.glob(parent_dir+"/"+fold+"/*.wav"):
 
         # load signal
-        signal = librosa.load(filename, sr=sr, duration=3)[0]
+        signal = load(filename, sr=sr, duration=3)[0]
 
         #extract features
         features_yield = extract_features(signal, normalize, wavelet)
         features = np.concatenate((features, features_yield))
 
         #extract label
-        labels_yield = int(fn.split('-')[-3]) # filenames: [fsID]-[classID]-[occurrenceID]-[sliceID].wav 
+        labels_yield = int(filename.split('-')[-3]) # filenames: [fsID]-[classID]-[occurrenceID]-[sliceID].wav 
         labels = np.append(labels, labels_yield)
 
     return features, labels
@@ -87,14 +87,11 @@ def save_folds(data_dir, save_dir, frames=128, bands=128, channels=1, normalize=
     return
 
 
-def load_folds(load_dir, validation_fold, bands, frames, channels): 
+def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1): 
     #load all folds except the validation fold, and a random testing fold
     
     train_x = np.empty(shape=[0, bands, frames, channels])  # shape : [samples, frames, bands, channels]
-    if sparse:
-        train_y = np.empty(shape=[0,1], dtype=int)
-    else:
-        train_y = np.empty(shape=0, dtype=int)
+    train_y = np.empty(shape=[0,1], dtype=int)
 
     # take out validation from training set
     train_set = set(np.arange(1,10+1))-set([validation_fold])
