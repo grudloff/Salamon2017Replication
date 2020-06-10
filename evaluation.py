@@ -2,15 +2,13 @@ from sklearn.metrics import precision_recall_fscore_support, roc_auc_score, conf
 
 num_labels = 10
 
-def evaluate(model, val_x, val_y, sparse = True):
+def evaluate(model, val_x, val_y):
     # Function for evaluating model through ROC, Accuracy ,F1 score and confusion matrix 
     
     y_prob = model.predict(val_x, verbose=0)
     y_pred = np.argmax(y_prob, 1)
-    if sparse:
-        y_true = val_y
-    else
-        y_true = argmax(val_y, 1)
+    y_true = val_y
+
 
     roc = roc_auc_score(y_true, y_prob, multi_class = 'ovr', labels = range(num_labels))
     print("ROC:",  round(roc,3))
