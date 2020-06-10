@@ -1,6 +1,7 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (Dense, Dropout, Activation, Flatten, Input, Reshape, 
-                                    Conv2D, MaxPooling2D)
+                                    Conv2D, MaxPooling2D, TimeDistributed, 
+                                    GlobalAveragePooling1D)
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.regularizers import l2
 
@@ -55,18 +56,13 @@ def build_model(frames=128, bands=128, f_size = 5, channels = 0):
 
     return model
 
-def build_model_multi(frames=128, bands=128, channels=0, f_size=5):
+def build_model_multi(frames=128, bands=128, channels=1, f_size=5):
     # variation of the previous model to allow to evaluate over a set of adjacent samples
     # and average the output like it is done on the original paper
 
     model = Sequential()
-    if channels == 0:
-        # input shape : [samples, frames, bands]
-        model.add(Input(shape=(frames, bands)))
-        model.add(Reshape(target_shape=(frames,bands,1))) # add channel dim
-    else:
-        # input shape: [samples, frames, bands, channels]
-        model.add(Input(shape=(frames, bands, channels)))
+     # input shape: [samples, frames, bands, channels]
+    model.add(Input(shape=(None, frames, bands, channels)))
 
     # Layer 1 - 24 filters with a receptive field of (f,f), i.e. W has the
     # shape (24,f,f,1).  This is followed by (4,2) max-pooling over the last
