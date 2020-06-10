@@ -15,7 +15,10 @@ def evaluate(model, val_x, val_y):
     print("ROC:",  round(roc,3))
 
     # evaluate the model
-    score, accuracy = model.evaluate(val_x, val_y, batch_size=100, verbose=0)
+    try:
+        score, accuracy = model.evaluate(val_x, val_y, batch_size=100, verbose=0)
+    except ValueError: # handle case where val_x is data generator
+        score, accuracy = model.evaluate(val_x, batch_size=100, verbose=0)
     print("\nAccuracy = {:.2f}".format(accuracy))
 
     # the F-score gives a similiar value to the accuracy score, but useful for cross-checking
