@@ -1,8 +1,10 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Input, Reshape, 
-                                    Conv2D, MaxPooling2D
+from tensorflow.keras.layers import (Dense, Dropout, Activation, Flatten, Input, Reshape, 
+                                    Conv2D, MaxPooling2D)
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.regularizers import l2
+
+num_labels = 10
 
 def build_model(frames=128, bands=128, f_size = 5, channels = 0):
     
