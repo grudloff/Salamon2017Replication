@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Input, 
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.regularizers import l2
 
-def build_model(frames=128, bands=128, f_size = 5, channels = 0, sparse = True):
+def build_model(frames=128, bands=128, f_size = 5, channels = 0):
     
     model = Sequential()
     if channels == 0:
@@ -49,14 +49,11 @@ def build_model(frames=128, bands=128, f_size = 5, channels = 0, sparse = True):
     model.add(Activation('softmax'))
 
     # compile model
-    if sparse:
-        model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
-    else:
-        model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
+    model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
 
     return model
 
-def build_model_multi(frames=128, bands=128, channels=0, f_size=5, sparse=True):
+def build_model_multi(frames=128, bands=128, channels=0, f_size=5):
     # variation of the previous model to allow to evaluate over a set of adjacent samples
     # and average the output like it is done on the original paper
 
@@ -104,9 +101,6 @@ def build_model_multi(frames=128, bands=128, channels=0, f_size=5, sparse=True):
     model.add(GlobalAveragePooling1D()) #average across time
 
     # compile model
-    if sparse:
-        model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
-    else:
-        model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
+    model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'], optimizer=SGD(lr=0.01))
 
     return model
