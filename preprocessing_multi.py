@@ -42,7 +42,7 @@ def extract_features(signal, normalize, wavelet):
         melspec = melspec[..., np.newaxis]
     
     # Reshape
-    features = melspec[np.newaxis, ...] # shape : [1, frames, bands, channels]
+    features = melspec # shape : [frames, bands, channels]
     return features
 
 
@@ -77,8 +77,7 @@ def save_folds(data_dir, save_dir, frames=128, bands=128, channels=1, normalize=
         print ("\nSaving " + fold_name)
         features, labels = extract_fold(data_dir, fold_name, frames, bands, channels, normalize, wavelet)
 
-        print ("Features of", fold_name , " = ", features.shape)
-        print ("Labels of", fold_name , " = ", labels.shape)
+        print ("Number of samples in ", fold_name , ": ", len(labels))
 
         feature_file = os.path.join(save_dir, fold_name + '_x.npy')
         labels_file = os.path.join(save_dir, fold_name + '_y.npy')
@@ -123,9 +122,9 @@ def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1):
             train_x.extend(loaded_features)
             train_y.extend(loaded_labels)
 
-    print("val len: ", len(val_x))
-    print("test len: ", len(test_x))
-    print("train len: ", len(train_x))
+    print("val len: ", len(val_y))
+    print("test len: ", len(test_y))
+    print("train len: ", len(train_y))
 
     return train_x, test_x, val_x, train_y, test_y, val_y
         
