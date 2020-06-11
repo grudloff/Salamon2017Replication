@@ -91,7 +91,7 @@ def save_folds(data_dir, save_dir, **kwargs):
 def load_folds(load_dir, augmented_load_dir, validation_fold): 
 
     train_x = 0  # shape : [samples, frames, bands]
-    train_y = np.empty(shape=[0,10], dtype = int)
+    train_y = np.empty(shape=0, dtype = int)
 
     # choose one fold from the remaining folds for training
     train_set = set(np.arange(9)+1)-set([validation_fold])
@@ -113,7 +113,7 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
         print(features.shape)
         print(labels.shape)
         train_x = concat_dask(train_x, features)
-        train_y = np.concatenate((train_y, labels))
+        train_y = np.append(train_y, labels)
 
     print("val shape: ", val_x.shape)
     print("test shape: ", test_x.shape)
