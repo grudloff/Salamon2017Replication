@@ -11,7 +11,7 @@ sr = 44100 # resample all to 44.1kHz
 window_size = 1024 # ~23[mseg] at 44.1kHz
 
 
-def extract_features(signal, normalize, wavelet):
+def extract_features(signal, normalize=False, wavelet=0):
 
     # handle less than 3 [seg]
     L = sr*3 # Total length for samples ~3[seg]
