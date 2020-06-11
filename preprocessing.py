@@ -43,7 +43,7 @@ def extract_features(signal, normalize, wavelet):
     return features
 
 
-def extract_fold(parent_dir, fold, frames, bands, channels, normalize, wavelet):
+def extract_fold(parent_dir, fold, frames=128, bands=128, channels=1, **kwargs):
 # Extract features from one fold
 
     features = np.empty(shape=[0, bands, frames, channels])  # shape : [samples, frames, bands]
@@ -55,7 +55,7 @@ def extract_fold(parent_dir, fold, frames, bands, channels, normalize, wavelet):
         signal = load(filename, sr=sr, duration=3)[0]
 
         #extract features
-        features_yield = extract_features(signal, normalize, wavelet)
+        features_yield = extract_features(signal, **kwargs)
         features = np.concatenate((features, features_yield))
 
         #extract label
@@ -65,14 +65,14 @@ def extract_fold(parent_dir, fold, frames, bands, channels, normalize, wavelet):
     return features, labels
 
 
-def save_folds(data_dir, save_dir, frames=128, bands=128, channels=1, normalize=False, wavelet = 0):
+def save_folds(data_dir, save_dir, **kwargs):
 # Preprocess all folds and save
 
     assure_path_exists(save_dir)
     for k in range(1,10+1):
         fold_name = 'fold' + str(k)
         print ("\nSaving " + fold_name)
-        features, labels = extract_fold(data_dir, fold_name, frames, bands, channels, normalize, wavelet)
+        features, labels = extract_fold(data_dir, fold_name, **kwargs)
 
         print ("Features of", fold_name , " = ", features.shape)
         print ("Labels of", fold_name , " = ", labels.shape)
