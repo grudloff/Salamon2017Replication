@@ -4,7 +4,7 @@ import os
 from muda import load_jam_audio, replay
 from librosa import resample
 
-from preprocessing import extract_features, load_folds, assure_path_exists
+from preprocessing import extract_features, assure_path_exists
 
 augment_folders=["bgnoise", "drc", "pitch1", "pitch2", "stretch"]
 original_folder="original"
