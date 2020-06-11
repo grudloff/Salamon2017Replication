@@ -93,7 +93,7 @@ def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1):
     #load all folds except the validation fold, and a random testing fold
     
     train_x = np.empty(shape=[0, bands, frames, channels])  # shape : [samples, frames, bands, channels]
-    train_y = np.empty(shape=[0,1], dtype=int)
+    train_y = np.empty(shape=0, dtype=int)
 
     # take out validation from training set
     train_set = set(np.arange(1,10+1))-set([validation_fold])
