@@ -102,18 +102,16 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
         "Validate on", validation_fold, "Test on", test_fold, "***")
 
     for k in range(1,10+1):
-    fold_name = 'fold' + str(k)
+        fold_name = 'fold' + str(k)
 
-    if k == validation_fold:
-        val_x, val_y = load_fold(load_dir, fold_name)
-    elif k == test_fold:
-        test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
-    else:
-        features, labels = load_fold(augmented_load_dir, fold_name)
-        print(features.shape)
-        print(labels.shape)
-        train_x = concat_dask(train_x, features)
-        train_y = np.append(train_y, labels)
+        if k == validation_fold:
+            val_x, val_y = load_fold(load_dir, fold_name)
+        elif k == test_fold:
+            test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
+        else:
+            features, labels = load_fold(augmented_load_dir, fold_name)
+            train_x = concat_dask(train_x, features)
+            train_y = np.append(train_y, labels)
 
     print("val shape: ", val_x.shape)
     print("test shape: ", test_x.shape)
