@@ -19,6 +19,8 @@ def extract_features(signal, normalize=False, wavelet=0):
     if signal_length < L:
         #pad by repeating signal
         signal = np.pad(signal, (0, L-signal_length), mode='wrap')
+    elif signa_length > L:
+        signal = signal[:L]
 
     # Calculate melspectrogram
     melspec = melspectrogram(signal, sr=sr, center=False,  #fmax = sr/2
