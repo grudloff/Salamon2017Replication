@@ -11,6 +11,9 @@ original_folder="original"
 
 
 def extract_fold(parent_dir, fold, augment_folders, bands=128, frames=128, channels=1, **kwargs):
+    # extract features from original and augmented audio in one fold
+    # This expects a folder for each augmention with a folder inside called jams containing the 
+    # JAMS files. The agumentations are replicated through these files.
 
     features = np.empty(shape=[0, bands, frames, channels])  # shape : [samples, frames, bands]
     labels = np.empty(shape=0 ,dtype=int)
