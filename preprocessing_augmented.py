@@ -4,6 +4,8 @@ import os
 from muda import load_jam_audio, replay
 from librosa import resample
 
+from dask.array import from_array, concatenate
+
 from preprocessing import extract_features, assure_path_exists
 
 augment_folders=["bgnoise", "drc", "pitch1", "pitch2", "stretch"]
@@ -84,3 +86,52 @@ def save_folds(data_dir, save_dir, **kwargs):
             print ("Saved " + feature_file)
             np.save(labels_file, labels, allow_pickle = True)
             print ("Saved " + labels_file)
+
+            
+def load_folds(load_dir, augmented_load_dir, validation_fold): 
+
+    train_x = 0  # shape : [samples, frames, bands]
+    train_y = np.empty(shape=[0,10], dtype = int)
+
+    # choose one fold from the remaining folds for training
+    train_set = set(np.arange(9)+1)-set([validation_fold])
+    test_fold = np.random.choice(list(train_set),1)[0] 
+    train_set=train_set-set([test_fold])
+
+    print("\n*** Train on", train_set, 
+        "Validate on", validation_fold, "Test on", test_fold, "***")
+
+    for k in range(1,10+1):
+    fold_name = 'fold' + str(k)
+
+    if k == validation_fold:
+        val_x, val_y = load_fold(load_dir, fold_name)
+    elif k == test_fold:
+        test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
+    else:
+        features, labels = load_fold(augmented_load_dir, fold_name)
+        print(features.shape)
+        print(labels.shape)
+        train_x = concat_dask(train_x, features)
+        train_y = np.concatenate((train_y, labels))
+
+    print("val shape: ", val_x.shape)
+    print("test shape: ", test_x.shape)
+    print("train shape: ", train_x.shape)
+
+    return train_x, test_x, val_x, train_y, test_y, val_y
+
+def load_fold(load_dir, fold_name):
+    feature_file = os.path.join(load_dir, fold_name + '_x.npy')
+    labels_file = os.path.join(load_dir, fold_name + '_y.npy')
+    #load features as in disk array, not loading it into memory
+    features = np.load(feature_file,  mmap_mode='r', allow_pickle=True)
+    labels = np.load(labels_file, allow_pickle=True)
+    return features, labels
+
+def concat_dask(train_x, features):
+    features = from_array(features)
+    if train_x is 0:
+        return features
+    else:
+        return concatenate([train_x, features], axis=0)
