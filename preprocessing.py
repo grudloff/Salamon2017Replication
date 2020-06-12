@@ -132,8 +132,8 @@ def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1):
 
 
 def load_fold(load_dir, fold_name):
-    features_file = os.path.join(load_dir, fold_name + "_x.npy)
-    labels_file = os.path.join(load_dir, fold_name + "_y.npy)  
+    features_file = os.path.join(load_dir, fold_name + "_x.npy")
+    labels_file = os.path.join(load_dir, fold_name + "_y.npy")  
     features = np.load(features_file, allow_pickle=True)
     labels = np.load(labels_file, allow_pickle=True)
     return features, labels
