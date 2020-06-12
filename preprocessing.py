@@ -113,14 +113,13 @@ def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1):
         loaded_labels = np.load(labels_file, allow_pickle=True)
 
         if k == validation_fold:
-            val_x = loaded_features
-            val_y = loaded_labels
+            val_x,val_y = load_fold(load_dir, fold_name)
         elif k == test_fold:
-            test_x = loaded_features
-            test_y = loaded_labels
+            test_x, test_y = load_fold(load_dir, fold_name)
         else:
-            train_x = np.concatenate((train_x, loaded_features))
-            train_y = np.append(train_y, loaded_labels)
+            features, labels = load_fold(load_dir, fold_name)
+            train_x = np.concatenate((train_x, features))
+            train_y = np.append(train_y, labels)
 
     print("val_x shape: ", val_x.shape)
     print("test_x shape: ", test_x.shape)
@@ -130,7 +129,16 @@ def load_folds(load_dir, validation_fold, bands=128, frames=128, channels=1):
     print("train_y shape: ", train_y.shape)
 
     return train_x, test_x, val_x, train_y, test_y, val_y
-        
+
+
+def load_fold(load_dir, fold_name):
+    features_file = os.path.join(load_dir, fold_name + "_x.npy)
+    labels_file = os.path.join(load_dir, fold_name + "_y.npy)  
+    features = np.load(features_file, allow_pickle=True)
+    labels = np.load(labels_file, allow_pickle=True)
+    return features, labels
+                               
+                               
 def assure_path_exists(path):
     # checks if path exists, if it dosen't it is created
     mydir = os.path.join(os.getcwd(), path)
