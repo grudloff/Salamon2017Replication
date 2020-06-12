@@ -17,5 +17,5 @@ conda activate deepsound
 #install custom version of muda for retrocompatibility
 pip install git+https://github.com/grudloff/muda
 # add the other libraries
-conda install notebook tensorflow tensorflow-gpu numpy dask numba PyWavelets
+conda install notebook tensorflow tensorflow-gpu numpy numba PyWavelets
 pip install librosa jams
