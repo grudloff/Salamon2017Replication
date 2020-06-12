@@ -88,7 +88,7 @@ def save_folds(data_dir, save_dir, **kwargs):
             
 def load_folds(load_dir, augmented_load_dir, validation_fold, frames=128, bands=128, channels=1): 
 
-    train_x = np.empty(shape=(0, frames, bands, channels), dtype='float32'))  # shape : [samples, frames, bands, channels]
+    train_x = np.empty(shape=(0, frames, bands, channels), dtype='float32')  # shape : [samples, frames, bands, channels]
     train_y = np.empty(shape=0, dtype = int)
 
     # choose one fold from the remaining folds for training
