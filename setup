@@ -1,0 +1,21 @@
+#download conda or miniconda
+#install from sh
+bash Miniconda3-latest-Linux-x86_64.sh
+
+#install some necessary libraries
+sudo apt-get git
+sudo apt-get install sox 
+sudo apt-get install -y rubberband-cli
+
+#create env 
+conda create --name deepsound python=3.7
+
+#enter env
+conda activate deepsound
+
+# add packages via pip
+#install custom version of muda for retrocompatibility
+pip install git+https://github.com/grudloff/muda
+# add the other libraries
+conda install notebook tensorflow tensorflow-gpu numpy dask numba PyWavelets
+pip install librosa jams
