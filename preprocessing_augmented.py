@@ -80,7 +80,7 @@ def save_folds(data_dir, save_dir, **kwargs):
             print ("Labels of", fold_name , " = ", labels.shape)
             
 
-            np.save(feature_file, features, allow_pickle = True)
+            np.save(feature_file, features.astype('float32'), allow_pickle = True)
             print ("Saved " + feature_file)
             np.save(labels_file, labels, allow_pickle = True)
             print ("Saved " + labels_file)
