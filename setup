@@ -18,4 +18,5 @@ conda activate deepsound
 pip install git+https://github.com/grudloff/muda
 # add the other libraries
 conda install notebook tensorflow tensorflow-gpu numpy numba PyWavelets
-pip install librosa jams
+pip install librosa jams matplotlib seaborn
+
