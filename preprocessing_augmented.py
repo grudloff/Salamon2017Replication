@@ -108,7 +108,7 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
             test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
         else:
             features, labels = load_fold(augmented_load_dir, fold_name)
-            train_x = np.concatenate(train_x, features)
+            train_x = np.concatenate((train_x, features))
             train_y = np.append(train_y, labels)
 
     print("val shape: ", val_x.shape)
