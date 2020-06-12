@@ -15,7 +15,7 @@ def extract_fold(parent_dir, fold, augment_folders, bands=128, frames=128, chann
     # This expects a folder for each augmention with a folder inside called jams containing the 
     # JAMS files. The agumentations are replicated through these files.
 
-    features = np.empty(shape=[0, bands, frames, channels])  # shape : [samples, frames, bands]
+    features = np.empty(shape=[0, bands, frames, channels], dtype='float32')  # shape : [samples, frames, bands]
     labels = np.empty(shape=0 ,dtype=int)
     
     for filename in os.listdir(os.path.join(parent_dir,fold)):
@@ -31,7 +31,7 @@ def extract_fold(parent_dir, fold, augment_folders, bands=128, frames=128, chann
         audio_original = jam_original.sandbox.muda._audio['y'] 
         orig_sr  = jam_original.sandbox.muda._audio['sr'] 
         audio_original = resample(audio_original, orig_sr, sr)
-        features_yield = extract_features(audio_original, **kwargs)
+        features_yield = extract_features(audio_original, **kwargs).astype('float32')
         features = np.concatenate((features, features_yield))
 
         labels_yield = int(filename.split('-')[-3]) # filenames: [fsID]-[classID]-[occurrenceID]-[sliceID]
@@ -53,7 +53,7 @@ def extract_fold(parent_dir, fold, augment_folders, bands=128, frames=128, chann
 
             audio_augmented = jams_augmented.sandbox.muda._audio['y'] 
             audio_augmented = resample(audio_augmented, orig_sr, sr)
-            features_yield = extract_features(audio_augmented, **kwargs)
+            features_yield = extract_features(audio_augmented, **kwargs).astype('float32')
             features = np.concatenate((features, features_yield))
 
             labels = np.append(labels, labels_yield)
@@ -88,7 +88,7 @@ def save_folds(data_dir, save_dir, **kwargs):
             
 def load_folds(load_dir, augmented_load_dir, validation_fold, frames=128, bands=128, channels=1): 
 
-    train_x = np.empty(shape=(0, frames, bands, channels))  # shape : [samples, frames, bands, channels]
+    train_x = np.empty(shape=(0, frames, bands, channels), dtype='float32'))  # shape : [samples, frames, bands, channels]
     train_y = np.empty(shape=0, dtype = int)
 
     # choose one fold from the remaining folds for training
