@@ -86,9 +86,9 @@ def save_folds(data_dir, save_dir, **kwargs):
             print ("Saved " + labels_file)
 
             
-def load_folds(load_dir, augmented_load_dir, validation_fold): 
+def load_folds(load_dir, augmented_load_dir, validation_fold, frames=128, bands=128, channels=1): 
 
-    train_x = 0  # shape : [samples, frames, bands]
+    train_x = np.empty(shape=(0, frames, bands, channels))  # shape : [samples, frames, bands, channels]
     train_y = np.empty(shape=0, dtype = int)
 
     # choose one fold from the remaining folds for training
@@ -105,7 +105,7 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
         if k == validation_fold:
             val_x, val_y = load_fold(load_dir, fold_name)
         elif k == test_fold:
-            test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
+            test_x, test_y = load_fold(load_dir, fold_name) #TODO: should this be augmented or original?
         else:
             features, labels = load_fold(augmented_load_dir, fold_name)
             train_x = np.concatenate((train_x, features))
