@@ -61,7 +61,7 @@ def extract_fold(parent_dir, fold, augment_folders, bands=128, frames=128, chann
     return features, labels
     
     
-def save_folds(data_dir, save_dir, **kwargs):
+def save_folds_augmented(data_dir, save_dir, **kwargs):
 # use this to process the original and agmented audio files into numpy arrays
     assure_path_exists(save_dir)
     
