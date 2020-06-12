@@ -4,9 +4,7 @@ import os
 from muda import load_jam_audio, replay
 from librosa import resample
 
-from dask.array import from_array, concatenate
-
-from preprocessing import extract_features, assure_path_exists
+from preprocessing import extract_features, load_fold, assure_path_exists
 
 augment_folders=["bgnoise", "drc", "pitch1", "pitch2", "stretch"]
 original_folder="original"
@@ -110,7 +108,7 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
             test_x, test_y = load_fold(augmented_load_dir, fold_name) #TODO: should this be augmented or original?
         else:
             features, labels = load_fold(augmented_load_dir, fold_name)
-            train_x = concat_dask(train_x, features)
+            train_x = np.concatenate(train_x, features)
             train_y = np.append(train_y, labels)
 
     print("val shape: ", val_x.shape)
@@ -118,18 +116,3 @@ def load_folds(load_dir, augmented_load_dir, validation_fold):
     print("train shape: ", train_x.shape)
 
     return train_x, test_x, val_x, train_y, test_y, val_y
-
-def load_fold(load_dir, fold_name):
-    feature_file = os.path.join(load_dir, fold_name + '_x.npy')
-    labels_file = os.path.join(load_dir, fold_name + '_y.npy')
-    #load features as in disk array, not loading it into memory
-    features = np.load(feature_file,  mmap_mode='r', allow_pickle=True)
-    labels = np.load(labels_file, allow_pickle=True)
-    return features, labels
-
-def concat_dask(train_x, features):
-    features = from_array(features)
-    if train_x is 0:
-        return features
-    else:
-        return concatenate([train_x, features], axis=0)
