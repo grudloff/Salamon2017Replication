@@ -4,15 +4,18 @@ Replication of the Paper Deep Convolutional Neural Networks and Data Augmentatio
 ## repo outline
 
 - setup : instructions for setting up the enviroment
-- evaluation.py : evaluation function
-- model.py : model building functions
-- preprocessing.py : data extraction, saving and loading from wav files with fixed 3 seconds length
-- preprocessing_augmented.py : data augmentation, extraction, saving and loading for wav+jams files
-- preprocessing_multi.py : data extraction, saving and loading from wav files
-- augmented_preprocessing.ipynb : preprocess dataset from jams
-- usk8:cnn_baseline.ipynb : preprocess dataset and train model on dataset with full lengths++
-- usk8:cnn_baseline_crop.ipynb : preprocess dataset and train model on dataset
-- usk8_cnn_salomon.ipynb : train model on augmented dataset (desktop)**
+- Functions:
+  - evaluation.py : evaluation function
+  - model.py : model building functions
+  - preprocessing.py : data extraction, saving and loading from wav files with fixed 3 seconds length
+  - preprocessing_augmented.py : data augmentation, extraction, saving and loading for wav+jams files
+  - preprocessing_multi.py : data extraction, saving and loading from wav files
+- Google colab notebook:
+  - augmented_preprocessing.ipynb : preprocess dataset from jams
+  - usk8:cnn_baseline.ipynb : preprocess dataset and train model on dataset with full lengths++
+  - usk8:cnn_baseline_crop.ipynb : preprocess dataset and train model on dataset
+- Desktop Notebooks:
+  - usk8_cnn_salomon.ipynb : train model on augmented dataset (desktop)**
 
 
 ++ This trains the data as described on the paper. Random 3 seconds excerpts from each larger than 3 second sample for training, and average output over all possible excerpts on testing.
