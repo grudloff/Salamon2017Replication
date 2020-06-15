@@ -1,4 +1,4 @@
-# Salomon2017Replication
+# Salomon & Bello 2017 Replication
 Replication of the Paper Deep Convolutional Neural Networks and Data Augmentation for Environmental Sound Classification by Salomon &amp; Bello. Implementation based on tensorflow.keras.
 
 ## Outline
