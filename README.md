@@ -15,6 +15,7 @@ Replication of the Paper Deep Convolutional Neural Networks and Data Augmentatio
   - usk8:cnn_baseline.ipynb : preprocess dataset and train models on dataset with full lengths++
   - usk8:cnn_baseline_crop.ipynb : preprocess dataset and train models on dataset
 - Desktop Notebooks:
+  - results_visualization.ipynb : Visualizations of results of every sceneario
   - usk8_cnn_salomon.ipynb : train model on augmented dataset (desktop)**
   - usk8_cnn_wavelet.ipynb : train improved model on augmented dataset (desktop)**
 
